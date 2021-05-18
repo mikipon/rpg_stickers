@@ -13,22 +13,27 @@ public class StickerManager : MonoBehaviour
 
     int count = 0;
     bool m_gameStart;
+    bool m_displayComp;
 
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == "sticker")
         {
-            Debug.Log(count + ": 通った");
+            //Debug.Log(count + ": 通った");
 
             count++;
 
-            if (count > 10)
+            if (count == 1)
             {
+                m_displayComp = true;
                 m_gameStart = true;
+                Debug.Log("10個でた");
             }
-            else
+            else if(count < 1)
             {
+                m_displayComp = false;
                 m_gameStart = false;
+                Debug.Log("それ以外");
             }
 
         }
@@ -36,27 +41,24 @@ public class StickerManager : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(m_gameStart.ToString());
-        if (m_gameStart)
+        CreateObject(m_displayComp);
+
+        if (m_gameStart) // ステッカーを表示し終えた
         {
-            //CreateObject();
-        }
-        else
-        {
-            //Debug.Log(m_gameStart.ToString());
-            CreateObject();
+
         }
     }
 
-    void CreateObject()
+    void CreateObject(bool bol)
     {
-        int ram = Random.Range(0, stickers.Length);
-        int xRam = Random.Range(-9, 10);
+        if (!bol) {
+                int ram = Random.Range(0, stickers.Length);
+                int xRam = Random.Range(-1, 1);
 
-        GameObject obj = Instantiate(stickers[ram], new Vector2(xRam, 8), Quaternion.identity);
-        //obj.transform.SetParent(parentTran);
-        //obj.transform.localPosition = new Vector2(0f, height);
-
+                GameObject obj = Instantiate(stickers[ram], new Vector2(xRam, 4), Quaternion.identity);
+                //obj.transform.SetParent(parentTran);
+                //obj.transform.localPosition = new Vector2(0f, height);]
+        }
     }
 
 }
