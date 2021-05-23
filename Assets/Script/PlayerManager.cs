@@ -1,14 +1,62 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
+    public bool mouseClick = true;
+
+    private float _hp;
+    private float _maxHp;
+
+    [SerializeField]
+    private Image GreenGauge;
+    [SerializeField]
+    private Image RedGauge;
+
     GameObject clickGameObject;
+
+    void Start()
+    {
+        _hp = 100;
+        _maxHp = 100;
+        Debug.Log("HP : " + _hp);
+    }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+    }
+
+    public void Damage(float power)
+    {
+        GaugeReduction(power);
+        _hp -= power;
+        Debug.Log("HP : " + _hp);
+        //mouseClick = true;
+    }
+
+    private void GaugeReduction(float reducationValue, float time = 1f)
+    {
+        float valueFrom = _hp / _maxHp;
+        float valueTo = (_hp - reducationValue) / _maxHp;
+
+        //緑のゲージ減少
+        GreenGauge.fillAmount= valueTo;
+        Debug.Log(GreenGauge.fillAmount);
+
+        //yield return new WaitForSeconds(time);
+        //RedGauge.fillAmount = valueTo;
+        //if (RedGauge.fillAmount == 0)
+        //{
+        //    Debug.Log("Die");
+        //}
+    }
+
+
+    public GameObject MouseClick()
+    {
+        if (Input.GetMouseButtonDown(0) && mouseClick)
         {
             clickGameObject = null;
 
@@ -18,18 +66,10 @@ public class PlayerManager : MonoBehaviour
             if (hit2d)
             {
                 clickGameObject = hit2d.transform.gameObject;
+                //Debug.Log(clickGameObject.tag.ToString());
             }
-
-            Debug.Log(clickGameObject.tag.ToString());
-
-            if (clickGameObject.tag == "sticker")
-            {
-                Debug.Log("その他のステッカー、何もなし");
-            }
-            else if (clickGameObject.tag == "weapon")
-            {
-                Debug.Log("武器ステッカー、攻撃");
-            }
-        }    
+        }
+        return clickGameObject;
     }
+
 }

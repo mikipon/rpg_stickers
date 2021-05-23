@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StickerManager : MonoBehaviour
 {
@@ -9,13 +10,16 @@ public class StickerManager : MonoBehaviour
     public GameObject[] weaponStickers;
     public GameObject[] otherStickers;
     public GameObject[] recoverySticker;
-    //public GameObject makeBox;
-    public Transform parentTran;
-    public float height;
+    ////public GameObject makeBox;
+    //public Transform parentTran;
+    //public float height;
     public int max = 30;
 
+    PlayerManager _playerManager;
+    GameObject _stickerObject;
+    bool _gameStart;
+
     int count = 0;
-    bool m_gameStart;
     //bool m_displayComp;
 
     void OnTriggerExit2D(Collider2D other)
@@ -29,30 +33,15 @@ public class StickerManager : MonoBehaviour
             if (count == max)
             {
                 //m_displayComp = true;
-                m_gameStart = true;
-                Debug.Log(count + "全部でた");
+                _gameStart = true;
+                //Debug.Log(count + "全部でた");
             }
-            else if(count < 1)
+            else if (count < 1)
             {
                 //m_displayComp = false;
-                m_gameStart = false;
-                Debug.Log("それ以外");
+                _gameStart = false;
+                //Debug.Log("それ以外");
             }
-
-        }
-    }
-
-    void Start()
-    {
-        StartCoroutine("CreateCube");
-    }
-
-    void Update()
-    {
-        //StartCoroutine("CreateCube");
-
-        if (m_gameStart) // ステッカーを表示し終えた
-        {
 
         }
     }
@@ -63,16 +52,21 @@ public class StickerManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator CreateCube()
     {
-        int w_max = 1;
+        int w_max = 3;
         int o_max = max - w_max;
-        for (int count = 0; count < w_max; count++) {
+
+        //武器のSticker生成
+        for (int count = 0; count < w_max; count++)
+        {
             int ram = Random.Range(0, weaponStickers.Length);
             int xRam = Random.Range(-6, 7);
+            float tRam = Random.Range(0.0f, 0.6f);
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(tRam);
             Instantiate(weaponStickers[ram], new Vector2(xRam, 6), Quaternion.identity);
         }
 
+        //武器以外のSticker生成
         for (int count = 0; count < o_max; count++)
         {
             int ram = Random.Range(0, weaponStickers.Length);
@@ -81,6 +75,101 @@ public class StickerManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             Instantiate(otherStickers[ram], new Vector2(xRam, 6), Quaternion.identity);
         }
+    }
+
+    void Start()
+    {
+        StartCoroutine("CreateCube");
+        _playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+    }
+
+    void Update()
+    {
+        if (_gameStart) // ステッカーを表示し終えた
+        {
+            try{
+                _stickerObject = _playerManager.MouseClick();
+
+                if (_stickerObject.tag == "sticker")
+                {
+                    //Debug.Log("その他のステッカー、何もなし");
+                    ClickOther(_stickerObject);
+                }
+                else if (_stickerObject.tag == "weapon")
+                {
+                    //Debug.Log("武器ステッカー、攻撃");
+                    ClickWeapon(_stickerObject, _playerManager.mouseClick);
+                }
+                else
+                {
+                    Debug.Log("null");
+                }
+            }
+            catch (System.NullReferenceException) // why null??
+            {
+                //Debug.Log("NullReferenceException");
+            }
+        }
+        else
+        {
+            //Debug.Log("Not GameStart");
+        }
+    }
+
+    /// <summary>
+    /// プレイヤーがクリックした武器Sticker
+    /// </summary>
+    /// <param name="gameObject"></param>
+    void ClickWeapon(GameObject gameObject, bool bo)
+    {
+        string str = gameObject.name;
+        string obName = str.Replace("(Clone)", "");
+        string saveFilePath = "\\Object\\Stickers\\Weapon\\";
+        Texture2D texture2d = new Texture2D(3, 3);
+        texture2d.LoadImage(System.IO.File.ReadAllBytes(Application.dataPath + saveFilePath + obName + ".png"));
+
+        if (bo)
+        {
+            if (gameObject.name == "Arrow")
+            {
+                Debug.Log("Arrow");
+                _playerManager.mouseClick = false;
+                _playerManager.Damage(10);
+            }
+            else if (gameObject.name == "Axe")
+            {
+                Debug.Log("Axe");
+                _playerManager.mouseClick = false;
+                _playerManager.Damage(10);
+            }
+            else if (gameObject.name == "Cannon")
+            {
+                Debug.Log("Cannon");
+                _playerManager.mouseClick = false;
+                _playerManager.Damage(10);
+            }
+            else if (gameObject.name == "Gun")
+            {
+                Debug.Log("Gun");
+                _playerManager.mouseClick = false;
+                _playerManager.Damage(10);
+            }
+            else if (gameObject.name == "JapaneseSword")
+            {
+                Debug.Log("JapaneseSword");
+                _playerManager.mouseClick = false;
+                _playerManager.Damage(10);
+            }
+        }
+    }
+
+    /// <summary>
+    /// プレイヤーがクリックした武器以外Sticker
+    /// </summary>
+    /// <param name="gameObject"></param>
+    void ClickOther(GameObject gameObject)
+    {
+
     }
 
 }
