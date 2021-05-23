@@ -38,12 +38,17 @@ public class PlayerManager : MonoBehaviour
 
     private void GaugeReduction(float reducationValue, float time = 1f)
     {
+        Debug.Log(reducationValue);
         float valueFrom = _hp / _maxHp;
         float valueTo = (_hp - reducationValue) / _maxHp;
-
+        Debug.Log(valueTo);
         //緑のゲージ減少
-        GreenGauge.fillAmount= valueTo;
-        Debug.Log(GreenGauge.fillAmount);
+        GreenGauge.fillAmount = valueTo;
+        //GreenGauge.fillAmount = valueFrom;
+
+
+        //GreenGauge.fillAmount = valueFrom;
+
 
         //yield return new WaitForSeconds(time);
         //RedGauge.fillAmount = valueTo;
@@ -57,6 +62,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject MouseClick()
     {
         if (Input.GetMouseButtonDown(0) && mouseClick)
+            //Debug.Log("Click");
         {
             clickGameObject = null;
 

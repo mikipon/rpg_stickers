@@ -1337,7 +1337,7 @@ MonoBehaviour:
   - {fileID: 5638009928722899119, guid: 8990b2aeba32d9f42bd9dcb2a5794b34, type: 3}
   recoverySticker:
   - {fileID: 0}
-  max: 40
+  max: 10
 --- !u!61 &1795796279
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1708,8 +1708,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseClick: 1
-  GreenGauge: {fileID: 0}
-  RedGauge: {fileID: 0}
+  GreenGauge: {fileID: 287325202}
+  RedGauge: {fileID: 475880756}
 --- !u!4 &2012533498
 Transform:
   m_ObjectHideFlags: 0

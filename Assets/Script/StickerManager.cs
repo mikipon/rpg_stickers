@@ -122,39 +122,34 @@ public class StickerManager : MonoBehaviour
     /// <param name="gameObject"></param>
     void ClickWeapon(GameObject gameObject, bool bo)
     {
-        string str = gameObject.name;
-        string obName = str.Replace("(Clone)", "");
-        string saveFilePath = "\\Object\\Stickers\\Weapon\\";
-        Texture2D texture2d = new Texture2D(3, 3);
-        texture2d.LoadImage(System.IO.File.ReadAllBytes(Application.dataPath + saveFilePath + obName + ".png"));
-
+        //Debug.Log(gameObject.name.ToString());
         if (bo)
         {
-            if (gameObject.name == "Arrow")
+            if (gameObject.name == "Arrow(Clone)")
             {
                 Debug.Log("Arrow");
                 _playerManager.mouseClick = false;
                 _playerManager.Damage(10);
             }
-            else if (gameObject.name == "Axe")
+            else if (gameObject.name == "Axe(Clone)")
             {
                 Debug.Log("Axe");
                 _playerManager.mouseClick = false;
                 _playerManager.Damage(10);
             }
-            else if (gameObject.name == "Cannon")
+            else if (gameObject.name == "Cannon(Clone)")
             {
                 Debug.Log("Cannon");
                 _playerManager.mouseClick = false;
                 _playerManager.Damage(10);
             }
-            else if (gameObject.name == "Gun")
+            else if (gameObject.name == "Gun(Clone)")
             {
                 Debug.Log("Gun");
                 _playerManager.mouseClick = false;
                 _playerManager.Damage(10);
             }
-            else if (gameObject.name == "JapaneseSword")
+            else if (gameObject.name == "JapaneseSword(Clone)")
             {
                 Debug.Log("JapaneseSword");
                 _playerManager.mouseClick = false;
