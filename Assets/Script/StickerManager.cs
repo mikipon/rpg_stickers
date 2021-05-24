@@ -15,8 +15,11 @@ public class StickerManager : MonoBehaviour
     //public float height;
     public int max = 30;
 
+    private Sprite sprite;
+
     PlayerManager _playerManager;
     GameObject _stickerObject;
+    Image image;
     bool _gameStart;
 
     int count = 0;
@@ -81,6 +84,8 @@ public class StickerManager : MonoBehaviour
     {
         StartCoroutine("CreateCube");
         _playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        GameObject image_object = GameObject.Find("Image");
+        image = image_object.GetComponent<Image>();
     }
 
     void Update()
@@ -129,33 +134,44 @@ public class StickerManager : MonoBehaviour
             {
                 Debug.Log("Arrow");
                 _playerManager.mouseClick = false;
+                Display(gameObject);
                 _playerManager.Damage(10);
             }
             else if (gameObject.name == "Axe(Clone)")
             {
                 Debug.Log("Axe");
                 _playerManager.mouseClick = false;
+                Display(gameObject);
                 _playerManager.Damage(10);
             }
             else if (gameObject.name == "Cannon(Clone)")
             {
                 Debug.Log("Cannon");
                 _playerManager.mouseClick = false;
+                Display(gameObject);
                 _playerManager.Damage(10);
             }
             else if (gameObject.name == "Gun(Clone)")
             {
                 Debug.Log("Gun");
                 _playerManager.mouseClick = false;
+                Display(gameObject);
                 _playerManager.Damage(10);
             }
             else if (gameObject.name == "JapaneseSword(Clone)")
             {
                 Debug.Log("JapaneseSword");
                 _playerManager.mouseClick = false;
+                Display(gameObject);
                 _playerManager.Damage(10);
             }
         }
+    }
+
+    void Display(GameObject gameObject)
+    {
+        sprite = Resources.Load<Sprite>(gameObject.name.Replace("(Clone)", ""));
+        image.sprite = sprite;
     }
 
     /// <summary>
