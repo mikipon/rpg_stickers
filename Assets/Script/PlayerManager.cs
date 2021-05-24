@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     private Image RedGauge;
 
     GameObject clickGameObject;
+    StickerManager StickerManager;
 
     void Start()
     {
@@ -25,7 +26,13 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
+        try {
+            StickerManager = GameObject.Find("StickerManager").GetComponent<StickerManager>();
+        }
+        catch (System.NullReferenceException)
+        {
 
+        }
     }
 
     public void Damage(float power)
@@ -38,6 +45,17 @@ public class PlayerManager : MonoBehaviour
 
     private void GaugeReduction(float reducationValue, float time = 1f)
     {
+        /*始まると同時に体力が増えるモーションをつけたい*/
+        //GreenGauge.fillAmount = 0;
+
+        //if (StickerManager.gameStart)
+        //{
+        //    for (float i = 0.1f; i<1; i+=0.1f)
+        //    {
+        //        GreenGauge.fillAmount = i;
+        //    }
+        //}
+
         Debug.Log(reducationValue);
         float valueFrom = _hp / _maxHp;
         float valueTo = (_hp - reducationValue) / _maxHp;

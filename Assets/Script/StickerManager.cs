@@ -14,13 +14,13 @@ public class StickerManager : MonoBehaviour
     //public Transform parentTran;
     //public float height;
     public int max = 30;
+    public bool gameStart;
 
     private Sprite sprite;
 
     PlayerManager _playerManager;
     GameObject _stickerObject;
     Image image;
-    bool _gameStart;
 
     int count = 0;
     //bool m_displayComp;
@@ -36,13 +36,13 @@ public class StickerManager : MonoBehaviour
             if (count == max)
             {
                 //m_displayComp = true;
-                _gameStart = true;
+                gameStart = true;
                 //Debug.Log(count + "全部でた");
             }
             else if (count < 1)
             {
                 //m_displayComp = false;
-                _gameStart = false;
+                gameStart = false;
                 //Debug.Log("それ以外");
             }
 
@@ -90,7 +90,7 @@ public class StickerManager : MonoBehaviour
 
     void Update()
     {
-        if (_gameStart) // ステッカーを表示し終えた
+        if (gameStart) // ステッカーを表示し終えた
         {
             try{
                 _stickerObject = _playerManager.MouseClick();
