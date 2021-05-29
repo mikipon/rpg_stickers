@@ -17,9 +17,14 @@ public class StickerManager : MonoBehaviour
     public bool gameStart;
 
     private Sprite sprite;
+    private bool flg = true;
+    private float eneHP;
+    private float eneMaxHP;
 
     PlayerManager _playerManager;
     GameObject _stickerObject;
+    EnemiesManager EnemiesManager;
+    DamageManager DamageManager;
     Image image;
 
     int count = 0;
@@ -47,6 +52,12 @@ public class StickerManager : MonoBehaviour
             }
 
         }
+       
+        _playerManager.GetBool(gameStart);
+        EnemiesManager.GetBool(gameStart); //　なぜこれだけ出来ん？
+
+
+
     }
 
     /// <summary>
@@ -69,7 +80,7 @@ public class StickerManager : MonoBehaviour
             Instantiate(weaponStickers[ram], new Vector2(xRam, 6), Quaternion.identity);
         }
 
-        //武器以外のSticker生成
+        //ダミーSticker生成
         for (int count = 0; count < o_max; count++)
         {
             int ram = Random.Range(0, weaponStickers.Length);
@@ -78,42 +89,51 @@ public class StickerManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             Instantiate(otherStickers[ram], new Vector2(xRam, 6), Quaternion.identity);
         }
+
     }
 
     void Start()
     {
-        StartCoroutine("CreateCube");
-        _playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
-        GameObject image_object = GameObject.Find("Image");
-        image = image_object.GetComponent<Image>();
+        try
+        {
+            StartCoroutine("CreateCube");
+            _playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+            GameObject image_object = GameObject.Find("Image");
+            image = image_object.GetComponent<Image>();
+            DamageManager = GameObject.Find("DamageManager").GetComponent<DamageManager>();
+            EnemiesManager = GameObject.Find("EnemiesManager").GetComponent<EnemiesManager>();
+        }
+        catch (System.NullReferenceException)
+        {
+
+        }
     }
 
     void Update()
     {
+        //p_HP = _playerManager._hp;
+        //Debug.Log("NOW : " + p_HP);
+
+        //eneHP = EnemiesManager.eneHP;
+        //eneMaxHP = EnemiesManager.eneMaxHP;
+
+        //Debug.Log("NOW : " + EnemiesManager.eneHP);
+
         if (gameStart) // ステッカーを表示し終えた
         {
-            try{
-                _stickerObject = _playerManager.MouseClick();
+            
 
-                if (_stickerObject.tag == "sticker")
-                {
-                    //Debug.Log("その他のステッカー、何もなし");
-                    ClickOther(_stickerObject);
-                }
-                else if (_stickerObject.tag == "weapon")
-                {
-                    //Debug.Log("武器ステッカー、攻撃");
-                    ClickWeapon(_stickerObject, _playerManager.mouseClick);
-                }
-                else
-                {
-                    Debug.Log("null");
-                }
-            }
-            catch (System.NullReferenceException) // why null??
+            //回復Sticker生成
+            if (_playerManager.wantRecovery && flg == true)
             {
-                //Debug.Log("NullReferenceException");
+                Debug.Log("薬欲しい");
+                int ram = Random.Range(0, recoverySticker.Length);
+                Random rnd = new Random();
+                int xRam = Random.Range(-6, 7);
+                Instantiate(recoverySticker[ram], new Vector2(xRam, 6), Quaternion.identity);
+                flg = false;
             }
+
         }
         else
         {
@@ -121,66 +141,11 @@ public class StickerManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// プレイヤーがクリックした武器Sticker
-    /// </summary>
-    /// <param name="gameObject"></param>
-    void ClickWeapon(GameObject gameObject, bool bo)
-    {
-        //Debug.Log(gameObject.name.ToString());
-        if (bo)
-        {
-            if (gameObject.name == "Arrow(Clone)")
-            {
-                Debug.Log("Arrow");
-                _playerManager.mouseClick = false;
-                Display(gameObject);
-                _playerManager.Damage(10);
-            }
-            else if (gameObject.name == "Axe(Clone)")
-            {
-                Debug.Log("Axe");
-                _playerManager.mouseClick = false;
-                Display(gameObject);
-                _playerManager.Damage(10);
-            }
-            else if (gameObject.name == "Cannon(Clone)")
-            {
-                Debug.Log("Cannon");
-                _playerManager.mouseClick = false;
-                Display(gameObject);
-                _playerManager.Damage(10);
-            }
-            else if (gameObject.name == "Gun(Clone)")
-            {
-                Debug.Log("Gun");
-                _playerManager.mouseClick = false;
-                Display(gameObject);
-                _playerManager.Damage(10);
-            }
-            else if (gameObject.name == "JapaneseSword(Clone)")
-            {
-                Debug.Log("JapaneseSword");
-                _playerManager.mouseClick = false;
-                Display(gameObject);
-                _playerManager.Damage(10);
-            }
-        }
-    }
-
-    void Display(GameObject gameObject)
+    public void Display(GameObject gameObject)
     {
         sprite = Resources.Load<Sprite>(gameObject.name.Replace("(Clone)", ""));
         image.sprite = sprite;
     }
 
-    /// <summary>
-    /// プレイヤーがクリックした武器以外Sticker
-    /// </summary>
-    /// <param name="gameObject"></param>
-    void ClickOther(GameObject gameObject)
-    {
-
-    }
 
 }

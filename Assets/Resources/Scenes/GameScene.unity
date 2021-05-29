@@ -1336,8 +1336,9 @@ MonoBehaviour:
   - {fileID: 5075710824638741040, guid: 482b38bc441c1014b901ce5bc904a6f1, type: 3}
   - {fileID: 5638009928722899119, guid: 8990b2aeba32d9f42bd9dcb2a5794b34, type: 3}
   recoverySticker:
-  - {fileID: 0}
-  max: 10
+  - {fileID: 8021754199977596036, guid: c9144ca5cb9cd64468b7d2f1f8a20906, type: 3}
+  max: 50
+  gameStart: 0
 --- !u!61 &1795796279
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1707,7 +1708,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7586d9f741556a849b72efdf98925ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseClick: 1
+  wantRecovery: 0
+  maxHp: 0
+  hp: 0
   GreenGauge: {fileID: 287325202}
   RedGauge: {fileID: 475880756}
 --- !u!4 &2012533498

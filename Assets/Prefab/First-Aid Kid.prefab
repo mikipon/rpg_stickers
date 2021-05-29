@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1845299791493658500}
   m_Layer: 0
   m_Name: First-Aid Kid
-  m_TagString: Untagged
+  m_TagString: recovery
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
